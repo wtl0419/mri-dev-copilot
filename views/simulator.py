@@ -4,19 +4,22 @@ import plotly.graph_objects as go
 import time
 from physics.bloch import simulate_spin_echo
 
-# 初始化 Session State (如果不存在) 用于 Streamlit 原生动画控制
-if 'current_frame_index' not in st.session_state:
-    st.session_state.current_frame_index = 0
-if 'is_playing' not in st.session_state:
-    st.session_state.is_playing = False
-if 'play_speed_ms' not in st.session_state:
-    st.session_state.play_speed_ms = 50 # 默认速度，帧间隔50ms
+# --- 把这里的初始化代码删掉，移到下面的函数内部 ---
 
 def render_simulator():
     """
     重设计后的 3D 序列仿真工作台 (v2.0)
-    改进：外部控制布局、慢速播放、PSD 同步时间轴
     """
+    # ==========================================
+    # 🌟 修复关键：将 Session State 初始化移入函数内部！
+    # 确保每次用户访问或刷新页面时，都能正确检测并初始化自己的专属状态。
+    # ==========================================
+    if 'current_frame_index' not in st.session_state:
+        st.session_state.current_frame_index = 0
+    if 'is_playing' not in st.session_state:
+        st.session_state.is_playing = False
+    if 'play_speed_ms' not in st.session_state:
+        st.session_state.play_speed_ms = 50 # 默认速度，帧间隔50ms
     # 将主界面的标题移至各自的视图内部
     st.title("📉 序列 3D 演化与 PSD 时序工作台")
 
